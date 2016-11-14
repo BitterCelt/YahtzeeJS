@@ -6,14 +6,16 @@ var turn = 0;
 var rolledDice = [];
 var s;
 var r;
-var a, b, c, d, e;
 var startBool = false;
+var infoWindow = false;
+var opac = 0;
 
 //define variables and set up canvas
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	rectMode(CENTER);
 	textAlign(CENTER);
+	textFont("Arial");
 	s = new Start();
 	r = new Roll();
 
@@ -27,10 +29,12 @@ function setup() {
 		rolledDice[i] = new DiceDraw();
 		rolledDice[i].x = ((i + 1) / 6)*windowWidth;
 	}
+	frameRate(255);
 }
 // draw the board, background, etc
 function draw() {
 	createCanvas(windowWidth, windowHeight);
+	textFont("Arial");
 	
 	background(0,0,100);
 	
@@ -62,7 +66,14 @@ function draw() {
 		// }
 		rolledDice[i].draw();
 	}
+	
+	if (turn<4) {
+		text(turn, windowWidth/2, windowHeight*3/4);
+	} else {
+		text("3", windowWidth/2, windowHeight*3/4);
+	}
 
+	info();
 }
 //drawing the board
 function board() {
@@ -75,7 +86,7 @@ function board() {
 	boardT = boardY - boardH/2;
 	boardB = boardY + boardH/2;
 	fill(0,100,0);
-	rect(boardX, boardY, boardW, boardH)
+	rect(boardX, boardY, boardW, boardH);
 	stroke(0, 50, 0);
 	strokeWeight(3);
 	for (var i = 1; i < 5; i++) {
@@ -366,4 +377,41 @@ function mouseReleased() {
 	r.release();
 	s.c = color(255, 0, 0);
 	r.c = color(255, 0, 0);	
+}
+
+function info() {
+	this.c = color(255, 0, 0);
+	this.x = windowWidth - windowWidth/60;
+	this.y = 0 + windowWidth/60;
+	this.w = windowWidth/30;
+	this.h = this.w;
+	if (mouseX < windowWidth && mouseX > windowWidth - this.w && mouseY > 0 && mouseY < 0 + this.h) {
+		this.c = color(100, 0, 0);
+		if (opac < 17) {
+			opac++;
+		}
+	} else {
+		if (opac > 0) {
+			opac--;
+		}
+	}
+	if (opac > 0) {
+		infoWindow = true;
+	} else {
+		infoWindow = false;
+	}
+	fill(this.c);
+	rect(this.x, this.y, this.w, this.h);
+	textFont("Times New Roman");
+	textAlign(CENTER);
+	fill(255);
+	text("i", this.x, this.y + windowHeight/100);
+	if (infoWindow) {
+		textFont("Arial");
+		fill(0, sq(opac));
+		strokeWeight(0);
+		rect(boardX, boardY, boardW, boardH);
+		fill(255, sq(opac));
+		text("Yahtzee!\nThe game where you aim to get\nall 5 dice the same face up!\nYou get 3 rolls, including the first\nPress Start for the first roll\nFor the second and third rolls\nclick the button under the die\nand then press Roll\nYou win if you get 5 of a kind", boardX, boardT+windowHeight/20);
+	}
 }
