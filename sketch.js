@@ -1,6 +1,6 @@
 //Array of buttons
 var button = [];
-//board centre
+//board centre point, and width/height
 var boardX, boardY, boardW, boardH;
 //borders of board
 var boardL, boardR, boardT, boardB;
@@ -8,7 +8,7 @@ var boardL, boardR, boardT, boardB;
 var turn = 0;
 //Array of dice
 var rolledDice = [];
-//button objects for Start(), and Roll();
+//button objects for Start(), and Roll()
 var s;
 var r;
 //some booleans to test for certain things
@@ -130,9 +130,9 @@ function Button() {
 		this.y = windowHeight - windowHeight / 8;
 		this.w;
 		this.h;
-		this.ts;
+		this.ts; // text size
 		
-		if (windowHeight > windowWidth) {
+		if (windowHeight > windowWidth) {  // resizes text based on window width and height
 			this.w = windowWidth/10;
 			this.ts = windowWidth/20;
 			this.h = this.w;
@@ -141,6 +141,7 @@ function Button() {
 			this.ts = windowHeight/20;
 			this.h = this.w;
 		}
+
 		this.t;
 		fill(this.c);
 		rect(this.x, this.y, this.w, this.h)
@@ -151,7 +152,7 @@ function Button() {
 	}
 	this.press = function() {
 
-		//this works. ¯\_(ツ)_/¯
+		//this works. ¯\_(ツ)_/¯ It changes the colour based on whether it's been pressed or not and keeps it pressed/not
 		if(mouseX < this.x + this.w/2 && mouseX > this.x - this.w/2 && mouseY > this.y - this.h/2 && mouseY < this.y + this.h/2 && this.on == false) {
 			this.c = color(100, 0, 0);
 			this.on = true;
@@ -314,7 +315,6 @@ function DiceDraw() {
 	}
 
 	this.die2 = function() {
-		// this.x;
 		this.y = boardY;
 		this.dice();
 		ellipse(this.x + this.w/4, this.y + this.h/4, this.w/5, this.h/5);
@@ -322,7 +322,6 @@ function DiceDraw() {
 	}
 
 	this.die3 = function() {
-		// this.x;
 		this.y = boardY;
 		this.dice();
 		ellipse(this.x, this.y, this.w/5, this.h/5);
@@ -331,7 +330,6 @@ function DiceDraw() {
 	}
 
 	this.die4 = function() {
-		// this.x;
 		this.y = boardY;
 		this.dice();
 		ellipse(this.x + this.w/4, this.y + this.h/4, this.w/5, this.h/5);
@@ -341,7 +339,6 @@ function DiceDraw() {
 	}
 
 	this.die5 = function() {
-		// this.x;
 		this.y = boardY;
 		this.dice();
 		ellipse(this.x + this.w/4, this.y + this.h/4, this.w/5, this.h/5);
@@ -352,7 +349,6 @@ function DiceDraw() {
 	}
 
 	this.die6 = function() {
-		// this.x; <-- this was there for safety's sake but commenting it out still works
 		this.y = boardY;
 		this.dice();
 		ellipse(this.x + this.w/4, this.y + this.h/4, this.w/5, this.h/5);
@@ -368,7 +364,7 @@ function DiceDraw() {
 	}
 	
 	this.draw = function() {
-		if (this.rand == 1) {
+		if (this.rand == 1) { //draws each dice depending on rand;
 			this.die1();
 		} else if (this.rand == 2) {
 			this.die2();
@@ -409,8 +405,8 @@ function info() { //the info board that appears when mouse is over the i button 
 	this.h = this.w;
 	if (mouseX < windowWidth && mouseX > windowWidth - this.w && mouseY > 0 && mouseY < 0 + this.h) {
 		this.c = color(100, 0, 0);
-		if (opac < 17) {
-			opac++;
+		if (opac < 17) { // 17 because I square it
+			opac++; // lets it fade in/out
 		}
 	} else {
 		if (opac > 0) {
